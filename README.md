@@ -57,37 +57,6 @@ result = Stellar::Erb::View.render('template.erb',
 ```
 
 
-## Architecture
-
-```mermaid
-classDiagram
-    class Stellar::Erb {
-        +render(template_path, locals)
-    }
-    class View {
-        +template_path
-        +template_content
-        +locals
-        +render()
-        +handle_error()
-    }
-    class Binding {
-        +locals
-        +get_binding()
-        +method_missing()
-    }
-    class Error {
-        +template_path
-        +original_error
-        +line_number
-        +context_lines()
-    }
-    
-    Stellar::Erb --> View
-    View --> Binding
-    View --> Error
-```
-### Advanced Usage
 
 #### Creating Reusable Views
 
@@ -115,34 +84,6 @@ rescue Stellar::Erb::Error => e
 end
 ```
 
-Error Handling Flow:
-
-```mermaid
-flowchart TD
-    A[Template Rendering] -->|Error occurs| B{Error Type}
-    B -->|SyntaxError| C[Create Error with Template Context]
-    B -->|StandardError| D[Create Error with Backtrace]
-    C --> E[Raise Enhanced Error]
-    D --> E
-    E --> F[Error Handler]
-    F --> G[Display Error Message]
-    F --> H[Show Context Lines]
-    F --> I[Show Original Error]
-```
-
-### Template Loading Process
-
-```mermaid
-flowchart LR
-    A[Read Template] --> B[Parse ERB]
-    B --> C[Create Binding]
-    C --> D[Inject Locals]
-    D --> E[Render Template]
-    E --> F[Return String]
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style F fill:#9f9,stroke:#333,stroke-width:2px
-```
 
 
 ## Development
