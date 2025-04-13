@@ -1,0 +1,18 @@
+<%
+# A template showing a simple CSV file generation
+# Define some data for our CSV
+users = [
+  { id: 1, name: "Alice", email: "alice@example.com", age: 28 },
+  { id: 2, name: "Bob", email: "bob@example.com", age: 35 },
+  { id: 3, name: "Charlie", email: "charlie@example.com", age: 42 },
+  { id: 4, name: "Diana", email: "diana@example.com", age: 31 }
+]
+
+# Add any custom user if passed as a local variable
+users << custom_user if defined?(custom_user)
+-%>
+id,name,email,age<% users.each do |user| %>
+<%= user[:id] %>,<%= user[:name] %>,<%= user[:email] %>,<%= user[:age] %><% end %>
+<% if defined?(include_timestamp) && include_timestamp %>
+# Generated at: <%= Time.now %>
+<% end %>

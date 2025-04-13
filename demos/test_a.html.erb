@@ -1,0 +1,24 @@
+<h1>Welcome to <%= page_title || "Stellar ERB" %></h1>
+
+<% if user %>
+  <div class="user-info">
+    <p>Hello, <%= user[:name] %>!</p>
+    <p>Your account was created <%= user[:created_at] %></p>
+  </div>
+<% else %>
+  <p>Please sign in to continue.</p>
+<% end %>
+
+<% if items && !items.empty? %>
+  <ul class="items-list">
+    <% items.each do |item| %>
+      <li><%= item %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No items found.</p>
+<% end %>
+
+<footer>
+  <p>© <%= Time.now.year %> Stellar::ERB Example</p>
+</footer>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= page_title || "Error Test Page" %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    .error-demo {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .error-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .items-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .items-list li {
+      padding: 8px;
+      margin-bottom: 5px;
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <h1><%= user ? "Welcome, #{user.name}!" : "Hello Guest!" %></h1>
+  
+  <div class="error-demo">
+    <h2>Error Demo</h2>
+    <p>This template will generate an error if you don't provide the right variables.</p>
+    
+    <% if show_error %>
+      <!-- This will cause an error when show_error is true -->
+      <%= this_method_does_not_exist() %>
+    <% end %>
+    
+    <h3>Your Items:</h3>
+    <ul class="items-list">
+      <% items.each_with_index do |item, index| %>
+        <li><%= index + 1 %>. <%= item %></li>
+      <% end %>
+    </ul>
+  </div>
+  
+  <p>Current time: <%= Time.now %></p>
+  <% nonexistent_var if debug_mode %>
+</body>
+</html>
