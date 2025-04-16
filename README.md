@@ -163,6 +163,6 @@ Professional support, custom development, and training services are available fr
 
 ---
 
-[![Build Status](https://github.com/durableprogramming/stellar-erb/workflows/CI/badge.svg)](https://github.com/durableprogramming/stellar-erb/actions)
+[![Build Status](https://github.com/durableprogramming/stellar-erb/actions/workflows/main.yml/badge.svg)](https://github.com/durableprogramming/stellar-erb/actions/workflows/main.yml)
 [![Gem Version](https://badge.fury.io/rb/stellar-erb.svg)](https://badge.fury.io/rb/stellar-erb)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
