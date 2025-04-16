@@ -1,4 +1,4 @@
-equire_relative '../lib/stellar/erb'
+require_relative '../lib/stellar/erb'
 require_relative '../lib/stellar/erb/view'
 
 # Create a simple template file to test

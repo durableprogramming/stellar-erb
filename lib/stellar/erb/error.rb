@@ -1,3 +1,4 @@
+
 module Stellar
   module Erb
     class Error < StandardError

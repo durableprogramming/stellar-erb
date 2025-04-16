@@ -7,13 +7,13 @@ module Stellar
         @template_path = template_path
         @template_content = File.read(template_path)
         @locals = locals
+        
       end
       
       def render(additional_locals = {})
         all_locals = locals.merge(additional_locals)
-        binding_obj = Binding.new(all_locals)
         erb = ::ERB.new(template_content)
-        erb.result(binding_obj.get_binding)
+        erb.result_with_hash(all_locals)
       rescue StandardError => e
         handle_error(e)
       end

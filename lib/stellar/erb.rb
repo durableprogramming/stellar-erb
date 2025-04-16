@@ -1,5 +1,4 @@
 require_relative "erb/version"
-require_relative "erb/binding"
 require_relative "erb/error"
 require_relative "erb/view"
 require "erb"
