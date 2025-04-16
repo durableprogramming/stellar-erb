@@ -2,35 +2,30 @@
 
 ![Stellar::ERb logo](logo.png)
 
-
-
-A safe, easy to use wrapper for ERB (Embedded Ruby) templates outside of Rails.
-
+A robust, safe, and feature-rich wrapper for ERB (Embedded Ruby) template rendering outside of Rails.
 
 ## Overview
 
-Stellar::Erb provides a robust method for reading `.erb` files from disk and rendering them to strings, with built-in support for:
-- Variable passing
-- Error handling with context
-- Clean backtraces
-- Template reusability
+Stellar::Erb provides a sophisticated yet easy-to-use solution for working with ERB templates in Ruby applications. It offers enhanced error handling, clean backtraces, and a flexible API that makes template rendering both powerful and maintainable.
 
+### Key Features
+
+- **Safe Template Rendering**: Built-in protection against common template injection vulnerabilities
+- **Rich Error Context**: Detailed error messages with line numbers and surrounding code context
+- **Flexible Variable Passing**: Support for both global and per-render local variables
+- **String Template Support**: Render ERB directly from strings in addition to files
+- **Reusable Views**: Create view instances for efficient template reuse
+- **Minimal Dependencies**: Works standalone without requiring Rails
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add to your Gemfile:
 
 ```ruby
 gem 'stellar-erb'
 ```
 
-And then execute:
-
-```bash
-$ bundle install
-```
-
-Or install it yourself as:
+Or install directly:
 
 ```bash
 $ gem install stellar-erb
@@ -42,55 +37,100 @@ $ gem install stellar-erb
 
 ```ruby
 # template.erb
-<h1>Hello, <%= name %>!</h1>
-<ul>
-  <% items.each do |item| %>
-    <li><%= item %></li>
+<div class="greeting">
+  <h1>Hello, <%= name %>!</h1>
+  <% if show_date %>
+    <p>Today is <%= Date.today %></p>
   <% end %>
-</ul>
+</div>
 
 # Ruby code
-result = Stellar::Erb::View.render('template.erb', 
-  name: 'John', 
-  items: ['apple', 'banana', 'orange']
+result = Stellar::Erb.render('template.erb', 
+  name: 'John',
+  show_date: true
 )
 ```
 
-
-
-#### Creating Reusable Views
+### String Template Rendering
 
 ```ruby
-# Create a view instance for reuse
-view = Stellar::Erb::View.new('templates/header.erb', 
-  company_name: 'Acme Corp'
-)
+template_string = <<~ERB 
+  <ul class="items">
+    <% items.each do |item| %>
+      <li><%= item.name %> - $<%= item.price %></li>
+    <% end %>
+  </ul>
+ERB
 
-# Render multiple times with different locals
-page1 = view.render(title: 'Home')
-page2 = view.render(title: 'About')
+result = Stellar::Erb.render_string(template_string, 
+  items: [
+    OpenStruct.new(name: 'Widget', price: 9.99),
+    OpenStruct.new(name: 'Gadget', price: 19.99)
+  ]
+)
 ```
 
-#### Error Handling
+### Reusable Views
+
+```ruby
+# Create a reusable view instance
+header = Stellar::Erb::View.new('partials/header.erb', 
+  company: 'Acme Corp',
+  logo_url: '/images/logo.png'
+)
+
+# Render with different page-specific variables
+page1 = header.render(title: 'Home Page')
+page2 = header.render(title: 'About Us')
+```
+
+### Error Handling
 
 ```ruby
 begin
-  Stellar::Erb::View.render('template.erb', user: current_user)
+  result = Stellar::Erb::View.render('template.erb', user: current_user)
 rescue Stellar::Erb::Error => e
-  puts "Error: #{e.message}"
-  puts "\nContext:"
+  puts "Template Error: #{e.message}"
+  
+  # Show context around the error
+  puts "\nError Context:"
   puts e.context_lines.join("\n")
-  puts "\nOriginal error: #{e.original_error.class}"
+  
+  # Access original error details
+  puts "Line Number: #{e.line_number}"
+  puts "Template Path: #{e.template_path}"
 end
 ```
 
 
-
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```bash
+# Setup development environment
+bin/setup
 
-Development workflow:
+# Run tests
+rake test
+
+# Run specific test file
+ruby -Ilib:test test/stellar/erb/view_test.rb
+
+# Generate documentation
+yard doc
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Add tests for your changes
+4. Make your changes
+5. Ensure tests pass (`rake test`)
+6. Commit your changes (`git commit -am 'Add amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Create a Pull Request
+
+### Development Workflow
 
 ```mermaid
 flowchart TD
@@ -107,28 +147,22 @@ flowchart TD
     I -->|No| G
 ```
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b feature/my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/my-new-feature`)
-5. Create new Pull Request
-
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
+Released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## Support
 
-For bug reports and feature requests, please use the [GitHub Issues](https://github.com/durableprogramming/stellar-erb/issues) page.
+- **Documentation**: [RubyDoc](https://www.rubydoc.info/gems/stellar-erb)
+- **Issues**: [GitHub Issues](https://github.com/durableprogramming/stellar-erb/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/durableprogramming/stellar-erb/discussions)
+
+## Commercial Support
+
+Professional support, custom development, and training services are available from [Durable Programming, LLC](https://www.durableprogramming.com).
 
 ---
 
-Stellar::Erb is actively maintained by [Durable Programming, LLC](https://github.com/durableprogramming).
-
-
-Commercial support for Stellar::Erb and related tools is available from Durable Programming, LLC. You can contact us at [durableprogramming.com](https://www.durableprogramming.com).
-
-![Durable Programming, LLC Logo](https://durableprogramming.com/images/logo.png)
+[![Build Status](https://github.com/durableprogramming/stellar-erb/workflows/CI/badge.svg)](https://github.com/durableprogramming/stellar-erb/actions)
+[![Gem Version](https://badge.fury.io/rb/stellar-erb.svg)](https://badge.fury.io/rb/stellar-erb)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
