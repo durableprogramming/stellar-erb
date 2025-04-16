@@ -2,12 +2,13 @@
 module Stellar
   module Erb
     class Error < StandardError
-      attr_reader :template_path, :original_error, :line_number
+      attr_accessor :template_path, :original_error, :line_number
 
       def initialize(message = nil, template_path: nil, original_error: nil, line_number: nil)
         @template_path = template_path
         @original_error = original_error
         @line_number = line_number
+        message ||= self.class.name
         super(message)
       end
 
