@@ -1,4 +1,7 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "English"
+require "test_helper"
 
 module Stellar
   module Erb
@@ -59,16 +62,16 @@ module Stellar
 
       def test_to_s_with_original_error
         original = RuntimeError.new("Original error")
-        error = Error.new(@message, 
-                          template_path: @template_path, 
-                          line_number: @line_number, 
+        error = Error.new(@message,
+                          template_path: @template_path,
+                          line_number: @line_number,
                           original_error: original)
         expected = "#{@message} in '#{@template_path}' on line #{@line_number}"
         assert_equal expected, error.to_s
       end
 
       def test_to_s_with_template_path_containing_special_characters
-        special_path = "path/with/special_chars-!@#$.erb"
+        special_path = "path/with/special_chars-!@#{$INPUT_LINE_NUMBER}erb"
         error = Error.new(@message, template_path: special_path, line_number: @line_number)
         expected = "#{@message} in '#{special_path}' on line #{@line_number}"
         assert_equal expected, error.to_s

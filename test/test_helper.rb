@@ -1,13 +1,12 @@
+# frozen_string_literal: true
 
-
-
-require 'simplecov'
+require "simplecov"
 SimpleCov.start do
   enable_coverage :branch
-  add_filter '/test/'
+  add_filter "/test/"
 end
 
-require 'minitest'
+require "minitest"
 require "minitest/autorun"
 require "fileutils"
 
@@ -26,6 +25,8 @@ module TestHelpers
   end
 end
 
-class Minitest::Test
-  include TestHelpers
+module Minitest
+  class Test
+    include TestHelpers
+  end
 end
